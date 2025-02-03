@@ -7,7 +7,7 @@
         "esModuleInterop": true,
         "allowSyntheticDefaultImports": true,
         "forceConsistentCasingInFileNames": true,
-        "types": ["node", "vitest"],
+        "types": ["node"],
         "paths": {
             "mini-signals": [
                 "./node_modules/resource-loader/typings/mini-signals.d.ts"
