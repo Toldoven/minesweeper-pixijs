@@ -17,7 +17,7 @@
         "start": "webpack-dev-server -- --env mode=development",
         "prebuild": "npx rimraf dist",
         "build": "npm run webpack -- --env mode=production",
-        "lint": "eslint .",
+        "lint": "eslint ."
     },
     "author": "Toldoven",
     "license": "MIT",
