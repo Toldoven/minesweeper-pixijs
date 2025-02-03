@@ -4,3 +4,9 @@ dist/*
 .cache
 .env
 .eslintcache
+.DS_Store
+.direnv/*
+.vscode/*
+.envrc
+flake.lock
+flake.nix
