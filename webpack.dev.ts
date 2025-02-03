@@ -5,7 +5,9 @@ import fs from "fs";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import ESLintPlugin from "eslint-webpack-plugin";
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const pkg = JSON.parse(fs.readFileSync(path.join(__dirname, "package.json"), "utf-8"));
+const pkg = JSON.parse(
+    fs.readFileSync(path.join(__dirname, "package.json"), "utf-8"),
+);
 
 module.exports = () => {
     const devConfig = {

@@ -6,13 +6,17 @@ import htmlPlugin from "eslint-plugin-html";
 
 // Define the common rules in a constant
 const commonRules = {
-    "padding-line-between-statements": [
-        "error",
-        { blankLine: "always", prev: "*", next: "return" },
-        { blankLine: "always", prev: ["const", "let", "var"], next: "*" },
-        { blankLine: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] },
-        { blankLine: "always", prev: ["if"], next: "*" },
-    ],
+    // "padding-line-between-statements": [
+    //     "error",
+    //     { blankLine: "always", prev: "*", next: "return" },
+    //     { blankLine: "always", prev: ["const", "let", "var"], next: "*" },
+    //     {
+    //         blankLine: "any",
+    //         prev: ["const", "let", "var"],
+    //         next: ["const", "let", "var"],
+    //     },
+    //     { blankLine: "always", prev: ["if"], next: "*" },
+    // ],
     "sort-imports": [
         "error",
         {
@@ -23,8 +27,20 @@ const commonRules = {
             allowSeparatedGroups: true,
         },
     ],
+    "@typescript-eslint/no-unused-vars": [
+      "warn",
+      {
+        "args": "all",
+        "argsIgnorePattern": "^_",
+        "caughtErrors": "all",
+        "caughtErrorsIgnorePattern": "^_",
+        "destructuredArrayIgnorePattern": "^_",
+        "varsIgnorePattern": "^_",
+        "ignoreRestSiblings": true
+      }
+    ],
     "@typescript-eslint/explicit-member-accessibility": [
-        "error",
+        "warn",
         {
             accessibility: "explicit",
             overrides: {
@@ -82,7 +98,7 @@ export default tseslint.config(
 
     // Base configuration for project files
     {
-        files: ["./src/**/*.{js,mjs,cjs,jsx,ts,tsx}"],
+        // files: ["./src/**/*.{js,mjs,cjs,jsx,ts,tsx}"],
         plugins: {
             prettier: prettierPlugin,
             import: eslintPluginImport,

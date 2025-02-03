@@ -1,13 +1,11 @@
-/* eslint-disable */
+import MiniCssExtractPlugin from "mini-css-extract-plugin";
+import path from "path";
+ 
+import HtmlWebpackPlugin from "html-webpack-plugin";
 
-const path = require("path");
+import { merge } from "webpack-merge";
 
-const merge = require("webpack-merge").merge;
-
-// plugins
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const CopyPlugin = require("copy-webpack-plugin");
+import CopyPlugin from "copy-webpack-plugin";
 
 module.exports = (env: { mode: "development" | "production" }) => {
     const config = {
@@ -37,23 +35,23 @@ module.exports = (env: { mode: "development" | "production" }) => {
         },
 
         plugins: [
-            new HtmlWebpackPlugin(),
+            new HtmlWebpackPlugin({
+                title: "Minesweeper",
+                favicon: "assets/favicon.ico",
+            }),
             new CopyPlugin({
                 patterns: [
                     {
                         from: "assets/**",
-
-                        // if there are nested subdirectories , keep the hierarchy
-                        to({ absoluteFilename }: { absoluteFilename: string }) {
-                            const assetsPath = path.resolve(__dirname, "assets");
-
-                            if (!absoluteFilename) {
-                                throw Error();
+                        to({ context, absoluteFilename }: { context: string; absoluteFilename?: string }) {
+                            if (absoluteFilename === undefined) {
+                                throw new Error("absoluteFilename is undefined.");
                             }
 
+                            const assetsPath = path.resolve(__dirname, "assets");
                             const endPath = absoluteFilename.slice(assetsPath.length);
 
-                            return Promise.resolve(`assets/${endPath}`);
+                            return Promise.resolve(path.join("assets", endPath));
                         },
                     },
                 ],

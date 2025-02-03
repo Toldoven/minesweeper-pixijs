@@ -1,70 +1,72 @@
-import "pixi-spine";
 import "./style.css";
-import { Application, Assets } from "pixi.js";
+import {
+    Application,
+    Assets,
+    AssetsManifest,
+    BaseTexture,
+    SCALE_MODES,
+} from "pixi.js";
+import { getUrlParamsBoardSettings } from "./board-settings";
+import { MinesweeperPixi } from "./pixi/minesweeper";
 
-import { getSpine } from "./utils/spine-example";
-import { createBird } from "./utils/create-bird";
-import { attachConsole } from "./utils/attach-console";
+const SCALE = 2;
 
-const gameWidth = 1280;
-const gameHeight = 720;
+export const WINDOW_PADDING_X_PX: number = 9 
+export const WINDOW_PADDING_Y_PX: number = 8
 
-console.log(
-    `%cPixiJS V7\nTypescript Boilerplate%c ${VERSION} %chttp://www.pixijs.com %c❤️`,
-    "background: #ff66a1; color: #FFFFFF; padding: 2px 4px; border-radius: 2px; font-weight: bold;",
-    "color: #D81B60; font-weight: bold;",
-    "color: #C2185B; font-weight: bold; text-decoration: underline;",
-    "color: #ff66a1;",
-);
+export const TILE_SIZE_PX: number = 16
+
+export const BOARD_PADDING_PX: number = 3
+
+export const HEADER_BOARD_GAP_PX: number = 5
+export const HEADER_HEIGHT_PX: number = 37
+export const HEADER_PADDING_PX: number = 6
+
+export const NUMBER_DISPLAY_PADDING_PX: number = 1
+export const NUMBER_DISPLAY_CELL_WIDTH_PX: number = 13
+
+const boardSettings = getUrlParamsBoardSettings();
+
+const windowWidth = (WINDOW_PADDING_X_PX * 2) + (boardSettings.width * TILE_SIZE_PX) + (BOARD_PADDING_PX * 2);
+const windowHeight = (WINDOW_PADDING_Y_PX * 2) + (boardSettings.height * TILE_SIZE_PX) + (BOARD_PADDING_PX * 2) + HEADER_BOARD_GAP_PX + HEADER_HEIGHT_PX;
 
 const app = new Application<HTMLCanvasElement>({
-    backgroundColor: 0xd3d3d3,
-    width: gameWidth,
-    height: gameHeight,
+    backgroundColor: 0x000000,
+    width: windowWidth * SCALE,
+    height: windowHeight * SCALE,
+    resolution: window.devicePixelRatio || 1,
+    antialias: false,
+    autoDensity: true,
 });
 
+app.stage.scale.set(SCALE);
+
+// Allow right click
+app.view.addEventListener('contextmenu', (event) => {
+    event.preventDefault();
+});
+  
 window.onload = async (): Promise<void> => {
     await loadGameAssets();
 
-    document.body.appendChild(app.view);
+    document.body.appendChild(app.view);    
 
-    resizeCanvas();
+    const minesweeper = new MinesweeperPixi(boardSettings.width, boardSettings.height, boardSettings.bombs);
 
-    const birdFromSprite = createBird();
-
-    birdFromSprite.anchor.set(0.5, 0.5);
-    birdFromSprite.position.set(gameWidth / 2, gameHeight / 4);
-
-    const spineExample = await getSpine();
-
-    app.stage.addChild(birdFromSprite);
-    app.stage.addChild(spineExample);
-    app.stage.interactive = true;
-
-    if (VERSION.includes("d")) {
-        // if development version
-        attachConsole(app.stage, gameWidth, gameHeight);
-    }
+    app.stage.addChild(minesweeper);
 };
 
 async function loadGameAssets(): Promise<void> {
-    const manifest = {
+    BaseTexture.defaultOptions.scaleMode = SCALE_MODES.NEAREST;
+
+    const manifest: AssetsManifest = {
         bundles: [
             {
-                name: "bird",
+                name: "spritesheet",
                 assets: [
                     {
-                        name: "bird",
-                        srcs: "./assets/simpleSpriteSheet.json",
-                    },
-                ],
-            },
-            {
-                name: "pixie",
-                assets: [
-                    {
-                        name: "pixie",
-                        srcs: "./assets/spine-assets/pixie.json",
+                        alias: "spritesheet",
+                        src: "./assets/winmine_31.json",
                     },
                 ],
             },
@@ -72,17 +74,5 @@ async function loadGameAssets(): Promise<void> {
     };
 
     await Assets.init({ manifest });
-    await Assets.loadBundle(["bird", "pixie"]);
-}
-
-function resizeCanvas(): void {
-    const resize = () => {
-        app.renderer.resize(window.innerWidth, window.innerHeight);
-        app.stage.scale.x = window.innerWidth / gameWidth;
-        app.stage.scale.y = window.innerHeight / gameHeight;
-    };
-
-    resize();
-
-    window.addEventListener("resize", resize);
+    await Assets.loadBundle(["spritesheet"]);
 }

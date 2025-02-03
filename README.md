@@ -1,41 +1,50 @@
-# Pixi.js TypeScript Boilerplate
+# Minesweeper PixiJS
 
-A beginner-friendly template for building interactive graphics and games using Pixi.js with TypeScript and Webpack. This boilerplate simplifies the setup process, allowing developers to quickly start creating engaging web experiences.
+A copy of WindowsXP version of the Minesweeper game built with PixiJS.
 
-![pixi.js logo](https://pixijs.download/pixijs-banner-no-version.png?v=1)
+![](https://i.imgur.com/rtkruuS.png)
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/14e7ef42-5c90-44c8-a7ec-0b6e20c59735/deploy-status)](https://pixi-typescript-boilerplate.netlify.app)
 
-## Recent update ( 25.12.2023 )
+## How to run
 
-- 🆕 Updated to Pixi v7: The latest version of Pixi.js brings enhanced features and performance improvements
+1. Install the dependencies
 
-- 🔧 Stability Overhaul: Moved from swc to ts-loader for improved stability and compatibility
 
-- Revised and Updated Dependencies: All package dependencies have been reviewed and updated to their latest versions for optimal performance and security.
+```
+npm i 
+```
 
-## Features
+2. Start the development server at `localhost:8080`
 
-- 🔰 - Beginner-friendly setup and structure.
-- 🚀 - Optimized build times.
-- 🛠 - Full TypeScript support for robust type-checking.
-- ✈️ - Live reload for efficient development workflow.
-- 📝 - Consistent code style using Prettier and Eslint
+```
+npm run start
+```
 
-## Usage
+## How to change difficulty
 
-### Click on the green button "Use this template" on top of the repo or
+There is no UI for changing difficulty for now, but you can change it with URL Parameters.
 
-Simply copy paste this and start coding
+Difficulty can be either `beginner`, `intermediate`, `expert` or `custom`.
 
-`git clone --depth=1 --branch=master https://github.com/yordan-kanchelov/pixi-typescript-boilerplate`
+Example:
 
-`rm -rf ./pixi-typescript-boilerplate/.git`
+```
+http://localhost:8080/?difficulty=expert
+```
 
-## Commands
+If the custom difficulty is selected - you can set custom width, height and bomb count using URL Parameters.
 
-- `npm run build` - starts build procedure
-- `npm run start` - start watching for files and open's server on localhost:8080
-- `npm run lint` - generate code coverage report
+Example: 
 
-For vscode users - ctrl ( or ⌘ ) + shift + b will run package.json's dev script ( it is set as default vscode task )
+```
+http://localhost:8080/?difficulty=custom&width=20&height=10&bombs=20
+```
+
+
+## TODO:
+
+- Left number display should display the number of remaining bombs
+- Display "Wow" face when the board is clicked
+- Add UI for difficulty selection
+- Polish documentation
+- Publish

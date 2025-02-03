@@ -7,7 +7,9 @@ import ESLintPlugin from "eslint-webpack-plugin";
 import CssMinimizerPlugin from "css-minimizer-webpack-plugin";
 import TerserPlugin from "terser-webpack-plugin";
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const pkg = JSON.parse(fs.readFileSync(path.join(__dirname, "package.json"), "utf-8"));
+const pkg = JSON.parse(
+    fs.readFileSync(path.join(__dirname, "package.json"), "utf-8"),
+);
 
 module.exports = () => {
     return {
